@@ -1,5 +1,7 @@
 package me.darkmans39.chartmodifier.util;
 
+import java.io.File;
+
 public final class NumberUtil {
 
     private NumberUtil() {
@@ -34,6 +36,13 @@ public final class NumberUtil {
             return def;
         }
 
+    }
+
+    public static String withoutExtension(File file) {
+
+        int lastIndex = file.getName().lastIndexOf('.');
+
+        return lastIndex == -1 ? file.getName() : file.getName().substring(0, lastIndex);
     }
 
 }

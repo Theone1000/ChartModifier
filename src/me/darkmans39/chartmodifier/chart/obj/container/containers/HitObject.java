@@ -4,11 +4,12 @@ import java.util.StringJoiner;
 
 import me.darkmans39.chartmodifier.chart.obj.container.Container;
 import me.darkmans39.chartmodifier.chart.obj.key.keys.HitObjectKeys;
+import me.darkmans39.chartmodifier.util.StringUtil;
 
 public final class HitObject extends Container<HitObject> {
 
     public HitObject() {
-        super(null);
+        super(null, false);
     }
 
     @Override
@@ -26,11 +27,8 @@ public final class HitObject extends Container<HitObject> {
         joiner.add(getObject(HitObjectKeys.TIME).toString());
         joiner.add(getObject(HitObjectKeys.TYPE).toString());
         joiner.add(getObject(HitObjectKeys.HIT_SOUND).toString());
-        joiner.add(getObject(HitObjectKeys.OBJECT_PARAMS));
-
-        final Integer sample = getObject(HitObjectKeys.HIT_SAMPLE);
-
-        if (sample != null) joiner.add(sample.toString());
+        StringUtil.appendNonNull(joiner, getObject(HitObjectKeys.OBJECT_PARAMS));
+        StringUtil.appendNonNull(joiner, getObject(HitObjectKeys.HIT_SAMPLE));
 
         return joiner.toString();
     }

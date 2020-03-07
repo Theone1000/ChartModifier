@@ -10,6 +10,7 @@ import it.sauronsoftware.jave.AudioAttributes;
 import it.sauronsoftware.jave.Encoder;
 import it.sauronsoftware.jave.EncoderException;
 import it.sauronsoftware.jave.EncodingAttributes;
+import me.darkmans39.chartmodifier.util.StringUtil;
 
 public final class AudioSpeedup {
 
@@ -43,18 +44,17 @@ public final class AudioSpeedup {
         return target;
     }
 
-    public static File speedUp(File source, double rate) {
+    public static File speedUp(File sourceFolder, File source, double rate) {
 
-        final File target = convertTo(source, "wav", "Converted-" + UUID.randomUUID().toString());
+        final File target = convertTo(source, "wav", "Converted-Wav" + UUID.randomUUID().toString());
 
-        double tempo = (rate * 100) - 100;
+        final double tempo = (rate * 100) - 100;
 
-        final File path = target.getParentFile();
-        final File spedUpFile = new File(path, "SpedUp-" + UUID.randomUUID() + ".wav");
-        final String cmd = String.format("cmd /c start /B C:\\Users\\Kaleb\\Desktop\\cyber\\soundstretch.exe %s %s -tempo+=%s", target.getAbsolutePath(), spedUpFile.getAbsolutePath(), tempo);
+        final File spedUpFile = new File(target.getParentFile(), "SpedUp-" + UUID.randomUUID() + ".wav");
+        final File toRun = new File(sourceFolder, "soundstretch.exe");
+        final String cmd = String.format("cmd /c start /B %s %s %s -tempo+=%s", toRun.getAbsolutePath(), escape(target.getAbsolutePath()), escape(spedUpFile.getAbsolutePath()), tempo);
 
         try {
-            System.out.println(cmd);
             final Process p = Runtime.getRuntime().exec(cmd);
             final BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
@@ -67,12 +67,16 @@ public final class AudioSpeedup {
             return null;
         }
 
-        convertTo(spedUpFile, "mp3", "Converted MP3");
+        File output = convertTo(spedUpFile, "mp3", StringUtil.withoutExtension(source) + " " + rate + "X");
 
         target.delete();
         spedUpFile.delete();
 
-        return null;
+        return output;
+    }
+
+    private static String escape(String i) {
+        return "\"" + i + "\"";
     }
 
 }

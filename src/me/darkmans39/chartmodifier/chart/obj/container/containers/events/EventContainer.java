@@ -6,7 +6,7 @@ import me.darkmans39.chartmodifier.chart.obj.key.keys.events.GenericEventKeys;
 public abstract class EventContainer<S> extends Container<S> {
 
     public EventContainer() {
-        super(null);
+        super(null, false);
     }
 
     @Override

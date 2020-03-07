@@ -22,6 +22,14 @@ public abstract class ListContainer<T extends OsuString> implements OsuString {
         return objects;
     }
 
+    public boolean isIncludeDelimiters() {
+        return includeDelimiters;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
     @Override
     public String toString() {
 

@@ -3,7 +3,7 @@ package me.darkmans39.chartmodifier.chart.obj.container.containers.events;
 import java.util.StringJoiner;
 
 import me.darkmans39.chartmodifier.chart.obj.key.keys.events.BackgroundAndVideoKeys;
-import me.darkmans39.chartmodifier.util.AppendUtil;
+import me.darkmans39.chartmodifier.util.StringUtil;
 
 public final class BackgroundOrVideo extends EventContainer<BackgroundOrVideo> {
 
@@ -20,8 +20,8 @@ public final class BackgroundOrVideo extends EventContainer<BackgroundOrVideo> {
         joiner.add(super.toOsuString());
         joiner.add(getObject(BackgroundAndVideoKeys.FILE_NAME));
 
-        AppendUtil.appendNonNull(joiner, getObject(BackgroundAndVideoKeys.X_OFFSET));
-        AppendUtil.appendNonNull(joiner, getObject(BackgroundAndVideoKeys.Y_OFFSET));
+        StringUtil.appendNonNull(joiner, getObject(BackgroundAndVideoKeys.X_OFFSET));
+        StringUtil.appendNonNull(joiner, getObject(BackgroundAndVideoKeys.Y_OFFSET));
 
         return joiner.toString();
     }

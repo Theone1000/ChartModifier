@@ -10,8 +10,10 @@ public abstract class Container<S> implements OsuString {
 
     private final String identifier;
     private final Map<NamedKey<?>, Object> data;
+    private final boolean space;
 
-    public Container(String identifier) {
+    public Container(String identifier, boolean space) {
+        this.space = space;
         this.identifier = identifier;
         this.data = new LinkedHashMap<>();
     }
@@ -55,7 +57,19 @@ public abstract class Container<S> implements OsuString {
         builder.append("[" + identifier + "]").append("\n");
 
         for (Entry<NamedKey<?>, Object> obj : data.entrySet()) {
-            builder.append(obj.getKey().getName()).append(": ").append(obj.getValue()).append("\n");
+            builder.append(obj.getKey().getName()).append(":");
+            if (space) builder.append(" ");
+
+            Object value = obj.getValue();
+
+            if (value instanceof Double || value instanceof Float) {
+
+                final double d = (double) value;
+
+                if (Math.floor(d) == d) value = (int) d;
+            }
+
+            builder.append(value).append("\n");
         }
 
         return builder.toString();

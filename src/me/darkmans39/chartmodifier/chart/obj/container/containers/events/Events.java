@@ -8,7 +8,7 @@ import me.darkmans39.chartmodifier.chart.obj.list.lists.Breaks;
 public final class Events extends Container<Events> {
 
     public Events() {
-        super("Events");
+        super("Events", false);
 
         setObject(EventKeys.BACKGROUNDS_OR_VIDEOS, new BackgroundsAndVideos());
         setObject(EventKeys.BREAKS, new Breaks());

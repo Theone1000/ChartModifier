@@ -9,7 +9,7 @@ public final class GeneralProcessor extends BulkProcessor {
     public GeneralProcessor() {
         addGenericProcessorsOfType(String.class, GeneralKeys.class, "general");
         addGenericProcessorsOfType(Integer.class, GeneralKeys.class, "general");
-        addGenericProcessorsOfType(Float.class, GeneralKeys.class, "general");
+        addGenericProcessorsOfType(Double.class, GeneralKeys.class, "general");
     }
 
     @Override

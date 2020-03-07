@@ -13,7 +13,7 @@ public final class HitObjectProcessor extends BulkProcessor {
 
         final String[] baseSplit = line.split(",", 7);
 
-        if (baseSplit.length < 6) return;
+        if (baseSplit.length < 5) return;
 
         final HitObject obj = new HitObject();
 
@@ -22,7 +22,7 @@ public final class HitObjectProcessor extends BulkProcessor {
         obj.setObject(HitObjectKeys.TIME, NumberUtil.parseInt(baseSplit[2], 0));
         obj.setObject(HitObjectKeys.TYPE, NumberUtil.parseInt(baseSplit[3], 0));
         obj.setObject(HitObjectKeys.HIT_SOUND, NumberUtil.parseInt(baseSplit[4], 0));
-        obj.setObject(HitObjectKeys.OBJECT_PARAMS, baseSplit[5]);
+        if (baseSplit.length > 5) obj.setObject(HitObjectKeys.OBJECT_PARAMS, baseSplit[5]);
 
         if (baseSplit.length == 7) obj.setObject(HitObjectKeys.HIT_SOUND, NumberUtil.parseInt(baseSplit[6], 0));
 

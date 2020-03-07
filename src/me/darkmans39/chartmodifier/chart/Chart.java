@@ -12,6 +12,7 @@ import me.darkmans39.chartmodifier.chart.obj.container.containers.Metadata;
 import me.darkmans39.chartmodifier.chart.obj.container.containers.TimingPoint;
 import me.darkmans39.chartmodifier.chart.obj.container.containers.events.Break;
 import me.darkmans39.chartmodifier.chart.obj.container.containers.events.Events;
+import me.darkmans39.chartmodifier.chart.obj.key.keys.GeneralKeys;
 import me.darkmans39.chartmodifier.chart.obj.key.keys.HitObjectKeys;
 import me.darkmans39.chartmodifier.chart.obj.key.keys.MetadataKeys;
 import me.darkmans39.chartmodifier.chart.obj.key.keys.TimingPointKeys;
@@ -26,12 +27,12 @@ import me.darkmans39.chartmodifier.util.NumberUtil;
 public final class Chart {
 
     public static Chart ofNone() {
-        return new Chart();
+        return new Chart(null);
     }
 
     public static Chart of(File file) {
 
-        final Chart chart = new Chart();
+        final Chart chart = new Chart(file);
 
         ChartReader.readTo(file, chart);
 
@@ -42,6 +43,7 @@ public final class Chart {
      * 
      */
 
+    private File file;
     private double cachedRate;
     private final General general;
     private final Metadata metadata;
@@ -51,7 +53,8 @@ public final class Chart {
     private final TimingPoints timingPoints;
     private final Events events;
 
-    private Chart() {
+    private Chart(File file) {
+        this.file = file;
         this.cachedRate = 1;
         this.general = new General();
         this.metadata = new Metadata();
@@ -60,6 +63,10 @@ public final class Chart {
         this.hitObjects = new HitObjects();
         this.timingPoints = new TimingPoints();
         this.events = new Events();
+    }
+
+    public File getFile() {
+        return file;
     }
 
     public void setCachedRate(double cachedRate) {
@@ -98,7 +105,7 @@ public final class Chart {
         return metadata;
     }
 
-    public Chart rate(double rate) {
+    public Chart uprate(double rate) {
 
         for (HitObject obj : hitObjects.getObjects()) {
 
@@ -106,13 +113,17 @@ public final class Chart {
 
             final String params = obj.getObject(HitObjectKeys.OBJECT_PARAMS);
 
-            if (!params.startsWith("0") || params.startsWith("|")) {
+            if (params != null) {
+                final String[] split = params.split(":");
 
-                final int index = params.indexOf(':');
-                final int spedUp = increaseSpeedRound(rate, NumberUtil.parseInt(params.substring(0, index), 0));
+                if (!split[0].equals("0") && !params.contains("|")) {
 
-                obj.setObject(HitObjectKeys.OBJECT_PARAMS, spedUp + params.substring(index));
+                    final int index = params.indexOf(':');
+                    final int spedUp = increaseSpeedRound(rate, NumberUtil.parseInt(params.substring(0, index), 0));
 
+                    obj.setObject(HitObjectKeys.OBJECT_PARAMS, spedUp + params.substring(index));
+
+                }
             }
         }
 
@@ -131,6 +142,12 @@ public final class Chart {
             obj.setObject(GenericEventKeys.START_TIME, increaseSpeedRound(rate, obj.getObject(GenericEventKeys.START_TIME)));
             obj.setObject(BreakKeys.END_TIME, increaseSpeedRound(rate, obj.getObject(BreakKeys.END_TIME)));
         }
+
+        metadata.setObject(MetadataKeys.BEATMAP_SET_ID, -1);
+
+        final int value = general.getObject(GeneralKeys.PREVIEW_TIME);
+
+        if (value > 0) general.setObject(GeneralKeys.PREVIEW_TIME, increaseSpeedRound(rate, value - 40));
 
         return this;
     }
@@ -152,21 +169,23 @@ public final class Chart {
             writer.append(metadata.toOsuString()).append("\n");
             writer.append(difficulty.toOsuString()).append("\n");
             writer.append(events.toOsuString()).append("\n");
-            writer.append(timingPoints.toOsuString()).append("\n");
-            writer.append(hitObjects.toOsuString()).append("\n");
+            writer.append(timingPoints.toOsuString()).append("\n\n");
+            writer.append(hitObjects.toOsuString());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+        System.out.println("Wrote file: " + output);
+
         return this;
     }
 
-    private static int increaseSpeedRound(double rate, int input) {
-        return (int) (Math.round((double) input / rate));
+    public static int increaseSpeedRound(double rate, int input) {
+        return (int) (Math.round((double) input / rate)) + 40;
     }
 
-    private static double increaseSpeed(double rate, double input) {
-        return input / rate;
+    public static double increaseSpeed(double rate, double input) {
+        return (input / rate);
     }
 
     @Override

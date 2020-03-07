@@ -8,7 +8,7 @@ import me.darkmans39.chartmodifier.chart.obj.key.keys.TimingPointKeys;
 public final class TimingPoint extends Container<TimingPoint> {
 
     public TimingPoint() {
-        super(null);
+        super(null, false);
     }
 
     @Override
