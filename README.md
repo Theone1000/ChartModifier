@@ -1,10 +1,9 @@
 A multi threaded chart rate changer (among other things) written in java, poorly.
+>The chart uprating feature was taken from https://github.com/Tripp1n/OsuRateChanger (god bless)
 
 **This program does not support Storyboards and never will. If you happen to modify a chart with storyboards, they will be removed**.
 
 **This program only supports mania**
-
->The chart uprating feature was taken from https://github.com/Tripp1n/OsuRateChanger (god bless)
 
 # Program features
 
