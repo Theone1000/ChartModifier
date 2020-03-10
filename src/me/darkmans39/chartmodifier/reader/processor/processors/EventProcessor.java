@@ -36,7 +36,7 @@ public final class EventProcessor extends BulkProcessor {
             final String[] split = line.split(",", 3);
             final Break breakObj = populateGeneric(new Break(), split);
 
-            breakObj.setObject(BreakKeys.END_TIME, NumberUtil.parseInt(split[2], 0));
+            if (split.length > 2) breakObj.setObject(BreakKeys.END_TIME, NumberUtil.parseInt(split[2], 0));
 
             appendTo.getChart().getEvents().getObject(EventKeys.BREAKS).getObjects().add(breakObj);
         });
@@ -45,7 +45,7 @@ public final class EventProcessor extends BulkProcessor {
 
     private static <T extends Container<T>> T populateGeneric(T toPopulate, String[] input) {
         toPopulate.setObject(GenericEventKeys.EVENT_TYPE, input[0]);
-        toPopulate.setObject(GenericEventKeys.START_TIME, NumberUtil.parseInt(input[1], 0));
+        if (input.length > 2) toPopulate.setObject(GenericEventKeys.START_TIME, NumberUtil.parseInt(input[1], 0));
         return toPopulate;
     }
 

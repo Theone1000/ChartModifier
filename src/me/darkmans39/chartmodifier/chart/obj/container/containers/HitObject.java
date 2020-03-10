@@ -6,7 +6,7 @@ import me.darkmans39.chartmodifier.chart.obj.container.Container;
 import me.darkmans39.chartmodifier.chart.obj.key.keys.HitObjectKeys;
 import me.darkmans39.chartmodifier.util.StringUtil;
 
-public final class HitObject extends Container<HitObject> {
+public final class HitObject extends Container<HitObject> implements Comparable<HitObject> {
 
     public HitObject() {
         super(null, false);
@@ -31,6 +31,11 @@ public final class HitObject extends Container<HitObject> {
         StringUtil.appendNonNull(joiner, getObject(HitObjectKeys.HIT_SAMPLE));
 
         return joiner.toString();
+    }
+
+    @Override
+    public int compareTo(HitObject o) {
+        return getObject(HitObjectKeys.TIME) - o.getObject(HitObjectKeys.TIME);
     }
 
 }

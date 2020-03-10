@@ -1,24 +1,23 @@
 package me.darkmans39.chartmodifier.chart.obj.list;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.StringJoiner;
 
 import me.darkmans39.chartmodifier.chart.obj.container.OsuString;
 
-public abstract class ListContainer<T extends OsuString> implements OsuString {
+public abstract class ListContainer<T extends OsuString, C extends Collection<T>> implements OsuString {
 
-    private final List<T> objects;
+    private final C objects;
     private final String identifier;
     private final boolean includeDelimiters;
 
-    public ListContainer(String identifier, boolean includeDelimiters) {
+    public ListContainer(String identifier, boolean includeDelimiters, C impl) {
         this.identifier = identifier;
         this.includeDelimiters = includeDelimiters;
-        this.objects = new ArrayList<>();
+        this.objects = impl;
     }
 
-    public List<T> getObjects() {
+    public C getObjects() {
         return objects;
     }
 

@@ -1,4 +1,4 @@
-package me.darkmans39.chartmodifier.ui;
+package me.darkmans39.chartmodifier.application.chart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 
+import me.darkmans39.chartmodifier.application.Application;
+import me.darkmans39.chartmodifier.application.UI;
 import me.darkmans39.chartmodifier.chart.Chart;
 import me.darkmans39.chartmodifier.chart.obj.key.keys.DifficultyKeys;
 import me.darkmans39.chartmodifier.chart.obj.key.keys.MetadataKeys;
 import me.darkmans39.chartmodifier.util.NumberUtil;
+import me.darkmans39.chartmodifier.util.SimpleDocumentListener;
 
 public final class ChartDataTracker {
 
@@ -44,7 +47,10 @@ public final class ChartDataTracker {
 
     public void updateText(Chart chart) {
 
-        if (chart == null) return;
+        if (chart == null) {
+            clearAllText();
+            return;
+        }
 
         final UI ui = application.getUI();
 
@@ -53,15 +59,24 @@ public final class ChartDataTracker {
         ui.getRatesTextField().setText(Double.toString(chart.getCachedRate()));
         ui.getHpTextField().setText(chart.getDifficulty().getObject(DifficultyKeys.HP_DRAIN_RATE).toString());
         ui.getODTextField().setText(chart.getDifficulty().getObject(DifficultyKeys.OVERALL_DIFFICULTY).toString());
+
+        application.getModFieldContainer().updateAllTextFields(chart);
     }
 
     public void clearAllText() {
         synchronized (lock) {
             isRemoving = true;
+            application.getModFieldContainer().clearAllText();
             for (JTextField field : fields) {
                 field.setText("");
             }
             isRemoving = false;
+        }
+    }
+
+    public boolean isRemoving() {
+        synchronized (lock) {
+            return isRemoving;
         }
     }
 
@@ -77,7 +92,7 @@ public final class ChartDataTracker {
             if (isRemoving) return;
         }
 
-        final Chart chart = application.getSelectedChart();
+        final Chart chart = application.getSelectedChart(application.getUI().getChartTable());
 
         if (chart == null) {
             SwingUtilities.invokeLater(() -> field.setText(""));

@@ -27,6 +27,14 @@ public abstract class Container<S> implements OsuString {
         return (T) data.get(key);
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T getObjectOrDef(NamedKey<T> key, T def) {
+
+        final T obj = (T) data.get(key);
+
+        return obj == null ? def : obj;
+    }
+
     public <T> S setObject(NamedKey<T> key, T value) {
         data.put(key, value);
         return getThis();

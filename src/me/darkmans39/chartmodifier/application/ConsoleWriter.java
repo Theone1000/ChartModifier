@@ -1,4 +1,4 @@
-package me.darkmans39.chartmodifier.ui;
+package me.darkmans39.chartmodifier.application;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

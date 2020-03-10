@@ -1,15 +1,17 @@
 package me.darkmans39.chartmodifier.chart.obj.list.lists;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringJoiner;
 
 import me.darkmans39.chartmodifier.chart.obj.container.OsuString;
 import me.darkmans39.chartmodifier.chart.obj.container.containers.events.Break;
 import me.darkmans39.chartmodifier.chart.obj.list.ListContainer;
 
-public final class Breaks extends ListContainer<Break> {
+public final class Breaks extends ListContainer<Break, List<Break>> {
 
     public Breaks() {
-        super("//Break Periods", false);
+        super("//Break Periods", false, new ArrayList<>());
     }
 
     @Override

@@ -1,4 +1,4 @@
-package me.darkmans39.chartmodifier.ui;
+package me.darkmans39.chartmodifier.util;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;

@@ -1,17 +1,19 @@
-package me.darkmans39.chartmodifier.ui;
+package me.darkmans39.chartmodifier.application.chart;
 
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
+import me.darkmans39.chartmodifier.application.Application;
+import me.darkmans39.chartmodifier.application.ConsoleWriter.ConsoleWriteType;
 import me.darkmans39.chartmodifier.audio.AudioSpeedup;
 import me.darkmans39.chartmodifier.chart.Chart;
 import me.darkmans39.chartmodifier.chart.obj.key.keys.GeneralKeys;
-import me.darkmans39.chartmodifier.ui.ConsoleWriter.ConsoleWriteType;
 import me.darkmans39.chartmodifier.util.StringUtil;
 
 public final class ChartUprater {
@@ -34,6 +36,8 @@ public final class ChartUprater {
 
         final DefaultTableModel model = (DefaultTableModel) table.getModel();
 
+        application.getModFieldContainer().applyAllFields(chart);
+
         synchronized (lock) {
             model.addRow(new Object[] { chart });
         }
@@ -53,7 +57,8 @@ public final class ChartUprater {
             if (chart.getCachedRate() != 1) {
 
                 try {
-                    audioFile = AudioSpeedup.speedUp(application.getDirectory(), file, chart.getCachedRate());
+                    System.out.println("Audio DIR: " + application.getDirectory());
+                    audioFile = AudioSpeedup.speedUp(application.getDirectory(), file, chart.getCachedRate(), application.getUI().getKeepPitchRadioButton().isSelected());
                 } catch (Exception e) {
                     application.getConsoleWriter().println("Unable to speed up audio file: " + e, ConsoleWriteType.ERROR);
                     SwingUtilities.invokeLater(() -> removeLinear(model, chart));
@@ -67,7 +72,9 @@ public final class ChartUprater {
 
             chart.getGeneral().setObject(GeneralKeys.AUDIO_FILE_NAME, audioFile.getName());
 
-            final File toWrite = new File(chart.getFile().getParentFile(), StringUtil.withoutExtension(chart.getFile()) + " " + chart.getCachedRate() + "X.osu");
+            int rand = ThreadLocalRandom.current().nextInt(100000);
+
+            final File toWrite = new File(chart.getFile().getParentFile(), rand + " - " + StringUtil.withoutExtension(chart.getFile()) + " (" + chart.getCachedRate() + "x).osu");
 
             chart.write(toWrite);
             application.getConsoleWriter().println("Wrote chart '" + chart.toString() + "'", ConsoleWriteType.SUCCESS);

@@ -3,7 +3,14 @@ package me.darkmans39.chartmodifier.chart;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map.Entry;
+import java.util.UUID;
 
+import me.darkmans39.chartmodifier.chart.mods.ModContainer;
+import me.darkmans39.chartmodifier.chart.mods.ModData;
+import me.darkmans39.chartmodifier.chart.mods.ModType;
+import me.darkmans39.chartmodifier.chart.mods.registry.ModRegistry;
 import me.darkmans39.chartmodifier.chart.obj.container.containers.Difficulty;
 import me.darkmans39.chartmodifier.chart.obj.container.containers.Editor;
 import me.darkmans39.chartmodifier.chart.obj.container.containers.General;
@@ -52,6 +59,7 @@ public final class Chart {
     private final HitObjects hitObjects;
     private final TimingPoints timingPoints;
     private final Events events;
+    private final ModContainer modContainer;
 
     private Chart(File file) {
         this.file = file;
@@ -63,6 +71,11 @@ public final class Chart {
         this.hitObjects = new HitObjects();
         this.timingPoints = new TimingPoints();
         this.events = new Events();
+        this.modContainer = new ModContainer();
+    }
+
+    public ModContainer getModContainer() {
+        return modContainer;
     }
 
     public File getFile() {
@@ -159,6 +172,15 @@ public final class Chart {
         } catch (IOException e) {
             e.printStackTrace();
             return this;
+        }
+
+        Collections.sort(getHitObjects().getObjects());
+
+        for (Entry<ModType, ModData> entry : getModContainer().getModData()) {
+
+            if (!entry.getValue().isEnabled()) continue;
+
+            ModRegistry.getMod(entry.getKey()).apply(this, entry.getValue());
         }
 
         try (FileWriter writer = new FileWriter(output)) {
