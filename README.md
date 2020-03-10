@@ -31,7 +31,7 @@ Note: This feature typically doesn't work with charts that have a non english au
 
 As of right now the only mod is the Quad mod, but more may come.
 
-#####Quads
+#### Quads
 
 When enabled, it will place a quad every X note (X = some random integer) in the chart.
 
