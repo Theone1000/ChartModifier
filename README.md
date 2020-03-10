@@ -41,4 +41,4 @@ If you ever used the OsuRateChanger by Tripp1n, you probably noticed that, when 
 
 ### Download
 
-Version 1.0: https://drive.google.com/open?id=1gpD9Q_Uyq2_pwkCNzWU4carmpCVZ6XnX
+https://drive.google.com/open?id=1gpD9Q_Uyq2_pwkCNzWU4carmpCVZ6XnX
