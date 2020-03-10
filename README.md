@@ -38,3 +38,7 @@ When enabled, it will place a quad every X note (X = some random integer) in the
 ### Multi threaded chart processing
 
 If you ever used the OsuRateChanger by Tripp1n, you probably noticed that, when uprating/down rating multiple charts, the program can be slow because it has to process one chart at a time. This program tries to solve that by processing each chart in a new thread.
+
+### Download
+
+Version 1.0: https://drive.google.com/open?id=1gpD9Q_Uyq2_pwkCNzWU4carmpCVZ6XnX
