@@ -3,11 +3,11 @@ A multi threaded chart rate changer (among other things) written in java, poorly
 
 **This program does not support Storyboards and never will. If you happen to modify a chart with storyboards, they will be removed**.
 
-**This program only supports mania**
+**This program only supports osu!mania and the windows os**
 
 # Program features
 
-![](https://i.imgur.com/Tffe0mf.png)
+![](https://i.imgur.com/ZNamaI4.png)
 
 ### Chart up/down rating.
 
@@ -20,6 +20,20 @@ Change the HP, OD, title, and difficulty of any chart in the program.
 ### Mass Rate applying
 
 Mass apply rates to highlighted charts by using the "Mass Rate Applier" in the top right corner of the program.
+
+### Auto Chart Loader
+
+When enabled, the program will actively scan your osu!'s title to figure out which chart you are playing, and then add it to the program for rate converting/modifiyng.
+
+Note: This feature typically doesn't work with charts that have a non english author, title, or difficulty.
+
+### Mods
+
+As of right now the only mod is the Quad mod, but more may come.
+
+#####Quads
+
+When enabled, it will place a quad every X note (X = some random integer) in the chart.
 
 ### Multi threaded chart processing
 
